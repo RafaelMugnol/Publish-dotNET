@@ -1,0 +1,20 @@
+{
+  "name": "tranferencia-publicacao",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clipboardy": "^1.2.3",
+    "fs": "0.0.1-security",
+    "fs-extra": "^7.0.1",
+    "msbuild": "^1.0.3",
+    "node-notifier": "^5.4.0",
+    "readline-sync": "^1.4.9",
+    "tfs": "^1.5.0"
+  }
+}
