@@ -19,7 +19,7 @@ get(fullVersion, () => {
 	publish(fullVersion, () => {
 		
 		//apaga web.config, transfere para o public e apaga a local
-		delivery(version, () => { alert("Tranferência finalizada!"); });
+		delivery(version, fullVersion, () => { alert("Tranferência finalizada!"); });
 		
 		console.log("Finalizado total! \nVersão: " + version);
 		

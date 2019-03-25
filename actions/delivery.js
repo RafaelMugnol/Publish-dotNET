@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const clipboardy = require('clipboardy');
 const config = require('../config.json');
 
-function delivery(versao, cbAvailable){
+function delivery(versao, fullVersion, cbAvailable){
 	var caminhoLocal = config.LocalPath + versao;
 	var caminhoPublic = config.PublicPath + versao;
 
@@ -19,6 +19,20 @@ function delivery(versao, cbAvailable){
 		fs.unlinkSync(caminhoLocal + "/web.config");
 	}
 
+	//foi nessesario fazer isso pois não copiou alguns arquivos da bin (arrumar essa gambi futuramente!)
+	//obs: essas dlls não estão nem na bin do projeto, estão somente nos componentes
+	const filesCopyBin = [
+		"System.Web.Helpers.dll",
+		"System.Web.Razor.dll",
+		"System.Web.WebPages.Deployment.dll",
+		"System.Web.WebPages.dll",
+		"System.Web.WebPages.Razor.dll"
+	];
+	filesCopyBin.forEach(file => {
+		fs.copyFileSync(config.ProjectsPath + fullVersion + "/componentes/" + file, caminhoLocal + "/bin/" + file);
+	});
+	//fim da gambi
+
 	var caminhoPublicOld = caminhoPublic + "_old"
 
 	if(fs.existsSync(caminhoPublic)){
@@ -29,9 +43,10 @@ function delivery(versao, cbAvailable){
 	console.log("Tranferindo arquivos.");
 	fs.copySync(caminhoLocal, caminhoPublic);
 
-	clipboardy.writeSync(caminhoPublic);//aqui avisar que esta disponivel a publicação
+	
+	clipboardy.writeSync(caminhoPublic);
 	if(cbAvailable)
-		cbAvailable();
+		cbAvailable();//aqui avisar que esta disponivel a publicação
 
 	console.log("Deletando arquivos local.");
 	deleteDirR(caminhoLocal);
