@@ -44,7 +44,7 @@ function delivery(versao, fullVersion, cbAvailable){
 	fs.copySync(caminhoLocal, caminhoPublic);
 
 	
-	clipboardy.writeSync(caminhoPublic);
+	clipboardy.writeSync(replaceAll(caminhoPublic, "/", "\\"));
 	if(cbAvailable)
 		cbAvailable();//aqui avisar que esta disponivel a publicação
 
@@ -56,6 +56,10 @@ function delivery(versao, fullVersion, cbAvailable){
 		deleteDirR(caminhoPublicOld);
 	}
 
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
 }
 
 module.exports = delivery;
