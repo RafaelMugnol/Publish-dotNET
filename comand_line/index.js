@@ -14,7 +14,7 @@ async function main(){
 	const fullVersion = getFullVersion(version);
 
 	//get no tfs
-	await convertToAsync(get, fullVersion);
+	//await convertToAsync(get, fullVersion);
 
 	//compila e publica localmente
 	await convertToAsync(publish, fullVersion);

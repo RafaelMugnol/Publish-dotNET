@@ -13,7 +13,7 @@ function get(version, cb){
 		cb();
   	}
   
-	tfs('get', [config.ProjectsPath + version], {
+	tfs('get', [config.ProjectsPath + version + "/Projetos/Mercanet"], {
 		recursive: true
 	}, callback);
 }
