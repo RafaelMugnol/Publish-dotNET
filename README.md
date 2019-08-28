@@ -1,3 +1,3 @@
 # Publish-dotNET
 
-![Image](master/PublicacaoGit.PNG)
+![](https://github.com/RafaelMugnol/Publish-dotNET/blob/master/PublicacaoGit.PNG)
