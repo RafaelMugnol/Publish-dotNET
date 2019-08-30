@@ -10,6 +10,8 @@ const versao = workerData.versao;
 
 var caminhoLocal = config.LocalPath + versao;
 var caminhoPublic = config.PublicPath + versao;
+var caminhoPublicOld = caminhoPublic + "_old"
+var caminhoPublicNew = caminhoPublic + "_new"
 
 if (!fs.existsSync(caminhoLocal)) {
 	console.log("A publicação local não existe!")
@@ -24,21 +26,24 @@ if (fs.existsSync(caminhoLocal + "/web.config")) {
 }
 
 
-var caminhoPublicOld = caminhoPublic + "_old"
+
+console.log("Tranferindo arquivos.");
+fs.copySync(caminhoLocal, caminhoPublicNew);
+
 
 if (fs.existsSync(caminhoPublic)) {
 	console.log("Renomeando pata public.");
 	fs.renameSync(caminhoPublic, caminhoPublicOld);
 }
 
-console.log("Tranferindo arquivos.");
-fs.copySync(caminhoLocal, caminhoPublic);
+fs.renameSync(caminhoPublicNew, caminhoPublic);
 
 
 //clipboardy.writeSync(replaceAll(caminhoPublic, "/", "\\"));
-//if (cbAvailable)
-//	cbAvailable();//aqui avisar que esta disponivel a publicação
+//if (workerData.cbAvailable)
+	//workerData.cbAvailable();//aqui avisar que esta disponivel a publicação
 
+	
 console.log("Deletando arquivos local.");
 deleteDirR(caminhoLocal);
 

@@ -7,11 +7,15 @@ const io = require('socket.io')(server)
 
 app.use(cors())
 
-mongoose.connect('mongodb://admin:admin123@ds143326.mlab.com:43326/publish-dotnet', {
+// conta: MongoDB Atlas
+// email: emailmercanetweb@gmail.com
+// senha: "merc" + <senha padrão Mercanet Web>
+//mongoose.connect('mongodb://admin:admin123@ds143326.mlab.com:43326/publish-dotnet', {
+mongoose.connect('mongodb+srv://publicacao:publicacao123@cluster0-sfyki.gcp.mongodb.net/publish-dotnet?retryWrites=true&w=majority', {
     useNewUrlParser: true,
 })
 
-//middleware/interceptador
+// middleware/interceptador
 app.use((req, res, next) => {
     req.io = io;
 
