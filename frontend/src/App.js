@@ -40,7 +40,23 @@ export default class App extends Component {
 		});
 
 		packs.sort((a, b) => {
-			return a.version < b.version ? 1 : -1;
+			if (a.version === "MAIN")
+				return -1;
+			if (b.version === "MAIN")
+				return 1;
+
+			// 2019.10.1
+			const versionA = a.version.split('.');
+			const versionB = b.version.split('.');
+
+			for (let i = 0; i < 3; i++) {
+				var comparer = this.compareValues(versionA[i], versionB[i]);
+
+				if (comparer !== 0)
+					return comparer;
+			}
+
+			return 0;
 		});
 
 		this.setState({ packs });
@@ -54,6 +70,18 @@ export default class App extends Component {
 			}
 		}
 	};
+
+	compareValues = (valueA, valueB) => {
+		valueA = parseInt(valueA);
+		valueB = parseInt(valueB);
+
+		if (valueA < valueB)
+			return 1;
+		if (valueA > valueB)
+			return -1;
+
+		return 0;
+	}
 
 	subscribeToEvents = () => {
 		const io = socket('http://merccxsws02:3333');
@@ -174,9 +202,9 @@ export default class App extends Component {
 									<table className="table-status" cellPadding="0" cellSpacing="0">
 										<tr>
 											<td width="100%">{this.getStatusText(pack.status)}</td>
-											<td style={{ color: "#FFBF00", paddingTop: "5px"  }}>
+											<td style={{ color: "#FFBF00", paddingTop: "5px" }}>
 												{pack.status === this.statusEnum.ERRO &&
-												<Tooltip title={pack.errorMessage} placement="top"><WarningIcon /></Tooltip>}
+													<Tooltip title={pack.errorMessage} placement="top"><WarningIcon /></Tooltip>}
 											</td>
 										</tr>
 									</table>
