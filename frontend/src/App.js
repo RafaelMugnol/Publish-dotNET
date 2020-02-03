@@ -49,6 +49,12 @@ export default class App extends Component {
 			const versionA = a.version.split('.');
 			const versionB = b.version.split('.');
 
+			// para deixar por último as versões com nomes diferentes
+			if (versionA.length < 3)
+				return 1;
+			if (versionB.length < 3)
+				return -1;
+
 			for (let i = 0; i < 3; i++) {
 				var comparer = this.compareValues(versionA[i], versionB[i]);
 
