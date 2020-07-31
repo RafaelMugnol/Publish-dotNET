@@ -17,7 +17,7 @@
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "fs-extra": "^7.0.1",
-    "mongoose": "^5.5.2",
+    "mongoose": "^5.7.5",
     "msbuild": "^1.0.3",
     "node-notifier": "^5.4.0",
     "readline-sync": "^1.4.9",
