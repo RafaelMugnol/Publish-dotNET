@@ -117,6 +117,13 @@ export default class App extends Component {
 		this.spawnNotification("Publicação iniciada", "Iniciada a publicação da versão " + pack.version + ".");
 		api.post('publish', { id: pack.id });
 
+		pack.status = this.statusEnum.FILA;
+
+		this.setState({
+			packs: this.state.packs.map(packItem =>
+				packItem.id === pack.id ? pack : packItem)
+		})
+
 		let array = this.state.waitingVersions;
 		array.push(pack.version)
 		this.setState({ waitingVersions: array })
