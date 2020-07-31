@@ -1,41 +1,37 @@
-﻿const alert = require("./helpers/alert");
-const get = require("./actions/get");
-const publish = require("./actions/publish");
-const delivery = require("./actions/delivery");
+﻿const azdev = require("azure-devops-node-api");
+
+
+const orgUrl = "https://dev.azure.com/{your_organization}";
+const config = require('./config.json');
 
 class publishProcess {
-	async inicia(version){
+	async queue(version, buildVersion){
 		//inicia
 		console.log("Iniciando...");
-		alert("Tranferência iniciada.");
 
-		//get no tfs
-		await convertToAsync(get, version);
+		let authHandler = azdev.getPersonalAccessTokenHandler(config.AzureToken);
+		let connection = new azdev.WebApi(orgUrl, authHandler);
+		let buildApi = await connection.getBuildApi();
+	  
+		const branchName = version === "MAIN" ? version : "VERSOES/" + version;
+		const baseVersion = version === "MAIN" ? "2020.7.1" : version;
+		const publishPath = version;
 		
-		console.log("compila e publica localmente");
-		//compila e publica localmente
-
-		await convertToAsync(publish, version);
-
-		console.log("fim compilacao");	
-		//apaga web.config, transfere para o public e apaga a local
-		//delivery(version, version, () => { alert("Tranferência finalizada!"); });
-		await delivery(version);
-		
-		console.log("Finalizado total! \nVersão: " + version);
-	}
-
-	async iniciaFake(version){
-		return true;
+		const buildDefinition = {
+		  definition: { id: 529 },
+		  parameters: `{
+			"build.branchName":"${branchName}",
+			"build.baseVersion":"${baseVersion}",
+			"build.publishPath":"${publishPath}",
+			"build.version":"${buildVersion}"
+		  }`
+		};
+	  
+		var buildResponse = await buildApi.queueBuild(buildDefinition, "MercanetWeb");
+	  
+		console.log("Build queued: " + buildResponse.id);
+		return buildResponse.id;
 	}
 }
+
 module.exports = new publishProcess();
-
-//https://stackoverflow.com/questions/22519784/how-do-i-convert-an-existing-callback-api-to-promises
-function convertToAsync(func, ...params){
-	return new Promise((resolve, reject) => {
-        func(...params, () => {
-			resolve();
-        }, reject);
-    });
-}

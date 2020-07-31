@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+const verifyBuildFinish = require('./helpers/verifyBuild')
 
 app.use(cors())
 
@@ -29,3 +30,5 @@ app.use(require('./routes'))
 server.listen(3333, () => {
     console.log('Servidor iniciado na porta 3333.')
 })
+
+setInterval(function() { verifyBuildFinish(io); }, 10000);

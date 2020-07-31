@@ -2,5 +2,6 @@
     "LocalPath": "C:/Publicacao_Local/",
     "PublicPath": "//MERCCXSAP01/Public/Publicacao_Dev/",
     "ProjectsPath": "C:/Projetos/",
-    "PublishProfile": "publicacao"
+    "PublishProfile": "publicacao",
+    "AzureToken": "<token with build acess>"
 }
