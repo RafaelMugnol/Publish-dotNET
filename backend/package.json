@@ -21,7 +21,7 @@
     "msbuild": "^1.0.3",
     "node-notifier": "^5.4.0",
     "readline-sync": "^1.4.9",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "tfs": "^1.5.0"
   },
   "devDependencies": {
